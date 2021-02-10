@@ -1,5 +1,5 @@
 ARG ARCH=
-FROM bayrell/alpine_php_fpm:7.4-3${ARCH}
+FROM bayrell/alpine_php_fpm:7.3-4${ARCH}
 
 RUN cd ~; \
 	apk update; \
