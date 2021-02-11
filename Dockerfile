@@ -7,11 +7,11 @@ RUN cd ~; \
 	rm -rf /var/cache/apk/*; \
 	echo 'Ok'
 
+ADD src/latest.zip /root/latest.zip
 ADD files /src/files
 RUN cd ~; \
 	cp -rf /src/files/etc/* /etc/; \
 	cp -rf /src/files/root/* /root/; \
-	cp -rf /src/files/latest.zip /root/; \
 	cp -rf /src/files/nginx.conf /root/; \
 	rm -rf /src/files; \
 	rm -rf /var/www/html; \
