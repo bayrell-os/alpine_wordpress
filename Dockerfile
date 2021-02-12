@@ -3,7 +3,7 @@ FROM bayrell/alpine_php_fpm:7.3-6${ARCH}
 
 RUN cd ~; \
 	apk update; \
-	apk add php7-mysqlnd php7-mysqli; \
+	apk add php7-mysqlnd php7-mysqli php7-dom php7-gd php7-simplexml; \
 	rm -rf /var/cache/apk/*; \
 	echo 'Ok'
 
