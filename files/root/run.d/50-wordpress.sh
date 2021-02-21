@@ -11,4 +11,5 @@ if [ -z "$(ls -A /var/www/html)" ]; then
 	rmdir wordpress
 	cp /root/nginx.conf /var/www/html/nginx.conf
 	chown -R www:www /data/wordpress
+	chown -R www:www /home/www
 fi

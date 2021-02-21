@@ -6,13 +6,13 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 
 RETVAL=0
 VERSION=5.6.1
-SUBVERSION=5
+SUBVERSION=6
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 case "$1" in
 	
 	test)
-		docker build ./ -t bayrell/alpine_wordpress:$VERSION-$SUBVERSION-$TAG --file Dockerfile
+		docker build ./ -t bayrell/alpine_wordpress:$VERSION-$SUBVERSION-$TAG --file Dockerfile --build-arg ARCH=-amd64
 	;;
 	
 	amd64)
