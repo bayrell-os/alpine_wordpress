@@ -6,7 +6,7 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 
 RETVAL=0
 VERSION=5.9
-SUBVERSION=1
+SUBVERSION=2
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 case "$1" in
@@ -33,9 +33,17 @@ case "$1" in
 	manifest)
 		rm -rf ~/.docker/manifests/docker.io_bayrell_alpine_wordpress-*
 		
+		docker tag bayrell/alpine_wordpress:$VERSION-$SUBVERSION-amd64 bayrell/alpine_wordpress:$VERSION-amd64
+		docker tag bayrell/alpine_wordpress:$VERSION-$SUBVERSION-arm64v8 bayrell/alpine_wordpress:$VERSION-arm64v8
+		docker tag bayrell/alpine_wordpress:$VERSION-$SUBVERSION-arm32v7 bayrell/alpine_wordpress:$VERSION-arm32v7
+		
 		docker push bayrell/alpine_wordpress:$VERSION-$SUBVERSION-amd64
 		docker push bayrell/alpine_wordpress:$VERSION-$SUBVERSION-arm64v8
 		docker push bayrell/alpine_wordpress:$VERSION-$SUBVERSION-arm32v7
+		
+		docker push bayrell/alpine_wordpress:$VERSION-amd64
+		docker push bayrell/alpine_wordpress:$VERSION-arm64v8
+		docker push bayrell/alpine_wordpress:$VERSION-arm32v7
 		
 		docker manifest create bayrell/alpine_wordpress:$VERSION-$SUBVERSION \
 			--amend bayrell/alpine_wordpress:$VERSION-$SUBVERSION-amd64 \
@@ -44,9 +52,9 @@ case "$1" in
 		docker manifest push bayrell/alpine_wordpress:$VERSION-$SUBVERSION
 		
 		docker manifest create bayrell/alpine_wordpress:$VERSION \
-			--amend bayrell/alpine_wordpress:$VERSION-$SUBVERSION-amd64 \
-			--amend bayrell/alpine_wordpress:$VERSION-$SUBVERSION-arm64v8 \
-			--amend bayrell/alpine_wordpress:$VERSION-$SUBVERSION-arm32v7
+			--amend bayrell/alpine_wordpress:$VERSION-amd64 \
+			--amend bayrell/alpine_wordpress:$VERSION-arm64v8 \
+			--amend bayrell/alpine_wordpress:$VERSION-arm32v7
 		docker manifest push bayrell/alpine_wordpress:$VERSION
 	;;
 	

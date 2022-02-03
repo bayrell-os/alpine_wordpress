@@ -1,8 +1,8 @@
-if [ ! -d /data/wordpress ]; then
-	mkdir /data/wordpress
+if [ ! -d $DOCUMENT_ROOT ]; then
+	mkdir $DOCUMENT_ROOT
 fi
 if [ ! -d /var/www/html ]; then
-	ln -s /data/wordpress /var/www/html
+	ln -s $DOCUMENT_ROOT /var/www/html
 fi
 if [ -z "$(ls -A /var/www/html)" ]; then
 	cd /var/www
@@ -10,6 +10,5 @@ if [ -z "$(ls -A /var/www/html)" ]; then
 	mv wordpress/* html
 	rmdir wordpress
 	cp /root/nginx.conf /var/www/html/nginx.conf
-	chown -R www:www /data/wordpress
-	chown -R www:www /home/www
+	chown -R www:www $DOCUMENT_ROOT
 fi
