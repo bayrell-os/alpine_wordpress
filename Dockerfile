@@ -1,5 +1,5 @@
 ARG ARCH=
-FROM bayrell/alpine_php_fpm:7.4-8${ARCH}
+FROM bayrell/alpine_php_fpm:7.4-9${ARCH}
 
 ADD src/latest.zip /root/latest.zip
 ADD files /src/files
