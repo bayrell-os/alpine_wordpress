@@ -1,0 +1,73 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<template>
+	<uid>org.bayrell.alpine_wordpress</uid>
+	<name>WordPress alpine</name>
+	<version>5.9-5</version>
+	<maintainer>Ildar &lt;ildar@bayrell.org&gt;</maintainer>
+	<marketplace>https://cloud.bayrell.org/</marketplace>
+	<link name="Main site">https://wordpress.org/</link>
+	<link name="Docker image">https://hub.docker.com/r/bayrell/alpine_php_fpm</link>
+	<link name="Docker image source code">https://github.com/bayrell-os/alpine_php_fpm</link>
+	<xml name="bayrell.org" priority="20">https://cloud.bayrell.org/marketplace/org.bayrell.alpine_wordpress.xml</xml>
+	<xml name="github.com" priority="10">https://raw.githubusercontent.com/bayrell-os/alpine_wordpress/main/org.bayrell.alpine_wordpress.xml</xml>
+	<license>GNU GPL 2+</license>
+	<description locale="en_US">WordPress (WP, WordPress.org) is a free and open-source content management system (CMS) written in PHP[4] and paired with a MySQL or MariaDB database. Features include a plugin architecture and a template system, referred to within WordPress as Themes. WordPress was originally created as a blog-publishing system but has evolved to support other web content types including more traditional mailing lists and forums, media galleries, membership sites, learning management systems (LMS) and online stores. One of the most popular content management system solutions in use, WordPress is used by 42.8% of the top 10 million websites as of October 2021.</description>
+	<description locale="ru_RU">WordPress - cвободно распространяемая система управления содержимым сайта с открытым исходным кодом; написана на PHP; сервер базы данных — MySQL; выпущена под лицензией GNU GPL версии 2. Сфера применения — от блогов до достаточно сложных новостных ресурсов. Встроенная система «тем» и «плагинов» вместе с удачной архитектурой позволяет конструировать проекты широкой функциональной сложности.</description>
+	<yaml>
+		<services>
+			<_var_app_name_>
+				<image>docker.io/bayrell/alpine_wordpress:5.9-5</image>
+				<hostname>{{.Service.Name}}.{{.Task.ID}}.local</hostname>
+				<environment>
+					<WWW_UID>_var_www_uid_</WWW_UID>
+					<WWW_GID>_var_www_gid_</WWW_GID>
+					<DOCUMENT_ROOT>_var_folder_document_root_</DOCUMENT_ROOT>
+				</environment>
+				<volumes>_var_app_name_:/data</volumes>
+				<volumes>_var_folder_www_:/var/www/html</volumes>
+			</_var_app_name_>
+		</services>
+		<volumes>
+			<_var_app_name_ />
+		</volumes>
+	</yaml>
+	<variables>
+		<variable>
+			<name>_var_app_name_</name>
+			<label>App name</label>
+			<type>string</type>
+		</variable>
+		<variable>
+			<name>_var_folder_www_</name>
+			<label>Project location on Host</label>
+			<type>string</type>
+		</variable>
+		<variable>
+			<name>_var_folder_document_root_</name>
+			<label>Document root folder</label>
+			<default>/var/www/html</default>
+			<type>string</type>
+		</variable>
+		<variable>
+			<name>_var_www_uid_</name>
+			<label>www user id</label>
+			<type>string</type>
+			<default>800</default>
+		</variable>
+		<variable>
+			<name>_var_www_gid_</name>
+			<label>www group id</label>
+			<type>string</type>
+			<default>800</default>
+		</variable>
+	</variables>
+	<modificators>
+		<li>org.bayrell.modificator.cloud_os</li>
+		<li>org.bayrell.modificator.deploy_hostname</li>
+	</modificators>
+	<patch>
+		<name>Template patch</name>
+		<operations>
+		</operations>
+	</patch>
+</template>
