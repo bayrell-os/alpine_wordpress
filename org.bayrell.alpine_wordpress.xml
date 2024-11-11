@@ -2,13 +2,16 @@
 <template>
 	<uid>org.bayrell.alpine_wordpress</uid>
 	<name>WordPress alpine</name>
-	<version>5.9-5</version>
+	<version>6.6.2-1</version>
 	<maintainer>Ildar &lt;ildar@bayrell.org&gt;</maintainer>
 	<marketplace>https://cloud.bayrell.org/</marketplace>
+	<date>2024-11-11T23:05:48+05:00</date>
+	<arch>amd64</arch>
+	<arch>arm64v8</arch>
+	<arch>arm32v7</arch>
 	<link name="Main site">https://wordpress.org/</link>
 	<link name="Docker image">https://hub.docker.com/r/bayrell/alpine_php_fpm</link>
 	<link name="Docker image source code">https://github.com/bayrell-os/alpine_php_fpm</link>
-	<xml name="bayrell.org" priority="20">https://cloud.bayrell.org/marketplace/org.bayrell.alpine_wordpress.xml</xml>
 	<xml name="github.com" priority="10">https://raw.githubusercontent.com/bayrell-os/alpine_wordpress/main/org.bayrell.alpine_wordpress.xml</xml>
 	<license>GNU GPL 2+</license>
 	<description locale="en_US">WordPress (WP, WordPress.org) is a free and open-source content management system (CMS) written in PHP[4] and paired with a MySQL or MariaDB database. Features include a plugin architecture and a template system, referred to within WordPress as Themes. WordPress was originally created as a blog-publishing system but has evolved to support other web content types including more traditional mailing lists and forums, media galleries, membership sites, learning management systems (LMS) and online stores. One of the most popular content management system solutions in use, WordPress is used by 42.8% of the top 10 million websites as of October 2021.</description>
@@ -16,12 +19,13 @@
 	<yaml>
 		<services>
 			<_var_app_name_>
-				<image>docker.io/bayrell/alpine_wordpress:5.9-5</image>
+				<image>docker.io/bayrell/alpine_wordpress:6.6.2-1</image>
 				<hostname>{{.Service.Name}}.{{.Task.ID}}.local</hostname>
 				<environment>
 					<WWW_UID>_var_www_uid_</WWW_UID>
 					<WWW_GID>_var_www_gid_</WWW_GID>
 					<DOCUMENT_ROOT>_var_folder_document_root_</DOCUMENT_ROOT>
+					<CRON_ENABLE>1</CRON_ENABLE>
 				</environment>
 				<volumes>_var_app_name_:/data</volumes>
 				<volumes>_var_folder_www_:/var/www/html</volumes>

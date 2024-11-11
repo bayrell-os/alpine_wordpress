@@ -5,9 +5,9 @@ SCRIPT_PATH=`dirname $SCRIPT`
 BASE_PATH=`dirname $SCRIPT_PATH`
 
 RETVAL=0
-VERSION=5.9
-SUBVERSION=5
-
+VERSION=6.6.2
+SUBVERSION=1
+IMAGE="alpine_wordpress"
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 case "$1" in
@@ -57,6 +57,55 @@ case "$1" in
 			--amend bayrell/alpine_wordpress:$VERSION-arm64v8 \
 			--amend bayrell/alpine_wordpress:$VERSION-arm32v7
 		docker manifest push bayrell/alpine_wordpress:$VERSION
+	;;
+	
+	upload-image)
+		
+		if [ -z "$2" ] || [ -z "$3" ]; then
+			echo "Type:"
+			echo "$0 upload-image $VERSION raspa 172"
+			echo "  $VERSION - version"
+			echo "  raspa - ssh host"
+			echo "  172 - bandwidth KiB/s"
+			exit 1
+		fi
+		
+		image=$IMAGE
+		version=$2
+		ssh_host=$3
+		bwlimit=""
+		
+		if [ ! -z "$4" ]; then
+			bwlimit=$4
+		fi
+		
+		mkdir -p images
+		
+		if [ ! -f ./images/$image-$version.tar.gz ]; then
+			echo "Save image"
+			docker image save bayrell/$image:$version | gzip \
+				> ./images/$image-$version.tar.gz
+		fi
+		
+		echo "Upload image"
+		ssh $ssh_host "mkdir -p ~/images"
+		ssh $ssh_host "yes | rm -f ~/images/$image-$version.tar.gz"
+		
+		if [ ! -z "$bwlimit" ]; then
+			time rsync -aSsuh \
+				--info=progress2 \
+				--bwlimit=$bwlimit \
+				./images/$image-$version.tar.gz \
+				$ssh_host:images/$image-$version.tar.gz
+		else
+			time rsync -aSsuh \
+				--info=progress2 \
+				./images/$image-$version.tar.gz \
+				$ssh_host:images/$image-$version.tar.gz
+		fi
+		
+		echo "Load image"
+		ssh $ssh_host "docker load -i ~/images/$image-$version.tar.gz"
 	;;
 	
 	all)
